@@ -24,13 +24,14 @@ export default class CaseSupport360 extends LightningElement {
 
     @wire(getSupport360, { caseId: '$recordId' })
     wiredSupport360({ data, error }) {
-        this.loading = false;
         if (data) {
             this.data = data;
             this.errorMessage = undefined;
+            this.loading = false;
         } else if (error) {
             this.data = undefined;
             this.errorMessage = this.normalizeError(error);
+            this.loading = false;
         }
     }
 
@@ -50,4 +51,3 @@ export default class CaseSupport360 extends LightningElement {
         return error.body?.message || error.message || 'Unknown error';
     }
 }
-
