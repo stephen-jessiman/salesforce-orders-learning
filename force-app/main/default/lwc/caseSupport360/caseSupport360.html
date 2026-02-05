@@ -1,0 +1,166 @@
+<template>
+    <lightning-card title="Support 360" icon-name="standard:case">
+        <template if:true={loading}>
+            <div class="slds-p-around_medium">
+                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+            </div>
+        </template>
+
+        <template if:true={errorMessage}>
+            <div class="slds-p-around_medium slds-text-color_error">
+                {errorMessage}
+            </div>
+        </template>
+
+        <template if:true={data}>
+            <template if:true={data.message}>
+                <div class="slds-p-horizontal_medium slds-p-top_small slds-text-color_weak">
+                    {data.message}
+                </div>
+            </template>
+
+            <div class="slds-p-around_medium">
+                <lightning-layout multiple-rows="true" pull-to-boundary="small">
+                    <lightning-layout-item size="12" medium-device-size="4" padding="around-small">
+                        <lightning-card title="Order" icon-name="standard:orders">
+                            <div class="slds-p-around_small">
+                                <template if:true={data.order}>
+                                    <div class="slds-text-heading_small">{data.order.orderNumber}</div>
+                                    <div class="slds-m-top_x-small">
+                                        <lightning-badge label={data.order.status}></lightning-badge>
+                                    </div>
+                                    <div class="slds-m-top_small">
+                                        <div class="slds-text-title_caps">Effective Date</div>
+                                        <lightning-formatted-date-time value={data.order.effectiveDate}></lightning-formatted-date-time>
+                                    </div>
+                                    <template if:true={data.order.poNumber}>
+                                        <div class="slds-m-top_small">
+                                            <div class="slds-text-title_caps">PO Number</div>
+                                            <div>{data.order.poNumber}</div>
+                                        </div>
+                                    </template>
+                                    <template if:true={data.order.totalAmount}>
+                                        <div class="slds-m-top_small">
+                                            <div class="slds-text-title_caps">Total</div>
+                                            <lightning-formatted-number
+                                                value={data.order.totalAmount}
+                                                format-style="currency"
+                                            ></lightning-formatted-number>
+                                        </div>
+                                    </template>
+                                </template>
+                                <template if:false={data.order}>
+                                    <div class="slds-text-color_weak">No related Order found.</div>
+                                </template>
+                            </div>
+                        </lightning-card>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item size="12" medium-device-size="4" padding="around-small">
+                        <lightning-card title="Latest Shipment" icon-name="standard:shipment">
+                            <div class="slds-p-around_small">
+                                <template if:true={data.shipment}>
+                                    <div class="slds-text-heading_small">{data.shipment.name}</div>
+                                    <div class="slds-m-top_x-small">
+                                        <lightning-badge label={data.shipment.deliveryStatus}></lightning-badge>
+                                    </div>
+                                    <template if:true={data.shipment.carrier}>
+                                        <div class="slds-m-top_small">
+                                            <div class="slds-text-title_caps">Carrier</div>
+                                            <div>{data.shipment.carrier}</div>
+                                        </div>
+                                    </template>
+                                    <template if:true={data.shipment.trackingNumber}>
+                                        <div class="slds-m-top_small">
+                                            <div class="slds-text-title_caps">Tracking</div>
+                                            <div class="slds-truncate" title={data.shipment.trackingNumber}>
+                                                {data.shipment.trackingNumber}
+                                            </div>
+                                        </div>
+                                    </template>
+                                    <template if:true={data.shipment.eta}>
+                                        <div class="slds-m-top_small">
+                                            <div class="slds-text-title_caps">ETA</div>
+                                            <lightning-formatted-date-time value={data.shipment.eta}></lightning-formatted-date-time>
+                                        </div>
+                                    </template>
+                                </template>
+                                <template if:false={data.shipment}>
+                                    <div class="slds-text-color_weak">No shipments yet.</div>
+                                </template>
+                            </div>
+                        </lightning-card>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item size="12" medium-device-size="4" padding="around-small">
+                        <lightning-card title="Latest Return" icon-name="standard:returns">
+                            <div class="slds-p-around_small">
+                                <template if:true={data.returnRequest}>
+                                    <div class="slds-text-heading_small">{data.returnRequest.rmaNumber}</div>
+                                    <div class="slds-m-top_x-small">
+                                        <lightning-badge label={data.returnRequest.status}></lightning-badge>
+                                    </div>
+                                    <template if:true={data.returnRequest.reason}>
+                                        <div class="slds-m-top_small">
+                                            <div class="slds-text-title_caps">Reason</div>
+                                            <div>{data.returnRequest.reason}</div>
+                                        </div>
+                                    </template>
+                                    <template if:true={data.returnRequest.refundAmount}>
+                                        <div class="slds-m-top_small">
+                                            <div class="slds-text-title_caps">Refund</div>
+                                            <lightning-formatted-number
+                                                value={data.returnRequest.refundAmount}
+                                                format-style="currency"
+                                            ></lightning-formatted-number>
+                                        </div>
+                                    </template>
+                                </template>
+                                <template if:false={data.returnRequest}>
+                                    <div class="slds-text-color_weak">No return requests yet.</div>
+                                </template>
+                            </div>
+                        </lightning-card>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item size="12" padding="around-small">
+                        <lightning-card title="Order Items" icon-name="standard:product_item">
+                            <div class="slds-p-around_small">
+                                <template if:true={hasOrderItems}>
+                                    <lightning-datatable
+                                        key-field="id"
+                                        data={data.orderItems}
+                                        columns={orderItemColumns}
+                                        hide-checkbox-column
+                                    ></lightning-datatable>
+                                </template>
+                                <template if:false={hasOrderItems}>
+                                    <div class="slds-text-color_weak">No order items.</div>
+                                </template>
+                            </div>
+                        </lightning-card>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item size="12" padding="around-small">
+                        <lightning-card title="Return Lines" icon-name="standard:product_item_transaction">
+                            <div class="slds-p-around_small">
+                                <template if:true={hasReturnLines}>
+                                    <lightning-datatable
+                                        key-field="id"
+                                        data={data.returnLines}
+                                        columns={returnLineColumns}
+                                        hide-checkbox-column
+                                    ></lightning-datatable>
+                                </template>
+                                <template if:false={hasReturnLines}>
+                                    <div class="slds-text-color_weak">No return lines.</div>
+                                </template>
+                            </div>
+                        </lightning-card>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+        </template>
+    </lightning-card>
+</template>
+
