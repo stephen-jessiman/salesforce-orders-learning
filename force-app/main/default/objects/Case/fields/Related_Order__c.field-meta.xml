@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Related_Order__c</fullName>
+    <label>Related Order</label>
+    <type>Lookup</type>
+    <referenceTo>Order</referenceTo>
+    <relationshipLabel>Cases</relationshipLabel>
+    <relationshipName>Order_Cases</relationshipName>
+    <description>Order this case is about (for “Where is my order?” triage).</description>
+</CustomField>

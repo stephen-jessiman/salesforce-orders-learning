@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Order_Item__c</fullName>
+    <label>Order Item</label>
+    <type>Lookup</type>
+    <referenceTo>OrderItem</referenceTo>
+    <relationshipLabel>Return Lines</relationshipLabel>
+    <relationshipName>Return_Lines</relationshipName>
+</CustomField>
