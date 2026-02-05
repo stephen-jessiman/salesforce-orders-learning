@@ -84,6 +84,18 @@
                                             <lightning-formatted-date-time value={data.shipment.eta}></lightning-formatted-date-time>
                                         </div>
                                     </template>
+                                    <template if:true={data.shipment.lastTrackingUpdate}>
+                                        <div class="slds-m-top_small">
+                                            <div class="slds-text-title_caps">Last Update</div>
+                                            <lightning-formatted-date-time value={data.shipment.lastTrackingUpdate}></lightning-formatted-date-time>
+                                        </div>
+                                    </template>
+                                    <template if:true={data.shipment.exceptionReason}>
+                                        <div class="slds-m-top_small">
+                                            <div class="slds-text-title_caps">Exception</div>
+                                            <div>{data.shipment.exceptionReason}</div>
+                                        </div>
+                                    </template>
                                 </template>
                                 <template if:false={data.shipment}>
                                     <div class="slds-text-color_weak">No shipments yet.</div>
@@ -163,4 +175,3 @@
         </template>
     </lightning-card>
 </template>
-

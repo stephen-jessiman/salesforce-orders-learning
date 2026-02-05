@@ -12,6 +12,7 @@ String demoContactFirstName = 'Alex';
 String orderDescription = 'Agentforce Seed Order';
 String seedOrderPoNumber = 'AF-SEED-ORDER-0001';
 String seedTrackingNumber = '1ZAFSEED0001';
+String seedTrackingNumber2 = '1ZAFSEED0002';
 String seedRmaNumber = 'RMA-AF-0001';
 
 String orderStatus = 'Draft';
@@ -200,7 +201,27 @@ if (existingShipments.isEmpty()) {
         Tracking_Number__c = seedTrackingNumber,
         ETA__c = Date.today().addDays(2),
         Delivery_Status__c = 'Shipped',
+        Last_Tracking_Update__c = System.now().addHours(-6),
         Notes__c = 'Seed shipment for Agentforce learning.'
+    );
+}
+
+List<Shipment__c> existingShipments2 = [
+    SELECT Id, Tracking_Number__c
+    FROM Shipment__c
+    WHERE Tracking_Number__c = :seedTrackingNumber2
+    LIMIT 1
+];
+if (existingShipments2.isEmpty()) {
+    insert new Shipment__c(
+        Order__c = demoOrder.Id,
+        Carrier__c = 'UPS',
+        Tracking_Number__c = seedTrackingNumber2,
+        ETA__c = Date.today().addDays(5),
+        Delivery_Status__c = 'Exception',
+        Exception_Reason__c = 'Carrier_Delay',
+        Last_Tracking_Update__c = System.now().addHours(-2),
+        Notes__c = 'Second shipment seeded to demonstrate partial fulfillment / exceptions.'
     );
 }
 
@@ -228,6 +249,12 @@ if (!cases.isEmpty()) {
     demoCase.Related_Order__c = demoOrder.Id;
     insert demoCase;
 }
+
+demoCase.Customer_Question__c = 'Hi — can you tell me where my order is? I only received part of it, and one package looks delayed. Can you share tracking and ETA?';
+demoCase.Preferred_Resolution__c = 'Status_Update';
+demoCase.Urgency__c = 'Normal';
+demoCase.Customer_Sentiment__c = 'Neutral';
+update demoCase;
 
 // Return__c (upsert by External Id / unique key)
 Return__c demoReturn = new Return__c(

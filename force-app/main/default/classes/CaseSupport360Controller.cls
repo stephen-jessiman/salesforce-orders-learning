@@ -49,7 +49,7 @@ public with sharing class CaseSupport360Controller {
         }
 
         List<Shipment__c> shipments = [
-            SELECT Id, Name, Carrier__c, Tracking_Number__c, ETA__c, Delivery_Status__c, Notes__c
+            SELECT Id, Name, Carrier__c, Tracking_Number__c, ETA__c, Delivery_Status__c, Exception_Reason__c, Last_Tracking_Update__c, Notes__c
             FROM Shipment__c
             WHERE Order__c = :o.Id
             ORDER BY CreatedDate DESC
@@ -158,6 +158,8 @@ public with sharing class CaseSupport360Controller {
         @AuraEnabled public String trackingNumber;
         @AuraEnabled public Date eta;
         @AuraEnabled public String deliveryStatus;
+        @AuraEnabled public String exceptionReason;
+        @AuraEnabled public Datetime lastTrackingUpdate;
 
         public ShipmentSummary(Shipment__c sObj) {
             this.id = sObj.Id;
@@ -166,6 +168,8 @@ public with sharing class CaseSupport360Controller {
             this.trackingNumber = sObj.Tracking_Number__c;
             this.eta = sObj.ETA__c;
             this.deliveryStatus = sObj.Delivery_Status__c;
+            this.exceptionReason = sObj.Exception_Reason__c;
+            this.lastTrackingUpdate = sObj.Last_Tracking_Update__c;
         }
     }
 
