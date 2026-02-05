@@ -48,6 +48,10 @@ Run the seed script (safe to re-run; it won’t duplicate the seed records unles
 
 `sf apex run --file scripts/apex/seed_agentforce_data.apex`
 
+You can also run full bootstrap in one command:
+
+`bash scripts/setup/init_org.sh <org-alias>`
+
 ## Case “Support 360” Example (Apex + LWC)
 
 This repo includes a single example LWC + Apex controller that shows a compact overview of the related Order, latest Shipment, and latest Return directly on a Case record page.
@@ -62,3 +66,7 @@ Setup → Object Manager → Case → Lightning Record Pages → open **Case Sup
 
 - Open the seeded Case: App Launcher → **Cases** → open **“Agentforce: Where is my order?”**
 - Confirm the **Support 360** card shows the Order, Shipment, Return, and line items.
+
+## Curated Guides
+
+- `documents/trailhead-agentforce-service-agent-orders-guide.md`
