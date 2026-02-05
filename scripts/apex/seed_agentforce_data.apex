@@ -10,6 +10,7 @@ String demoAccountName = 'Agentforce Demo Account';
 String demoContactLastName = 'Customer';
 String demoContactFirstName = 'Alex';
 String orderDescription = 'Agentforce Seed Order';
+String seedOrderPoNumber = 'AF-SEED-ORDER-0001';
 String seedTrackingNumber = '1ZAFSEED0001';
 String seedRmaNumber = 'RMA-AF-0001';
 
@@ -131,7 +132,7 @@ Order demoOrder;
 List<Order> orders = [
     SELECT Id, AccountId, EffectiveDate, Status, Pricebook2Id, Description
     FROM Order
-    WHERE AccountId = :demoAccount.Id AND Description = :orderDescription
+    WHERE AccountId = :demoAccount.Id AND PoNumber = :seedOrderPoNumber
     LIMIT 1
 ];
 if (!orders.isEmpty()) {
@@ -142,6 +143,7 @@ if (!orders.isEmpty()) {
         EffectiveDate = Date.today().addDays(-7),
         Status = orderStatus,
         Pricebook2Id = standardPricebook.Id,
+        PoNumber = seedOrderPoNumber,
         Description = orderDescription
     );
     insert demoOrder;
