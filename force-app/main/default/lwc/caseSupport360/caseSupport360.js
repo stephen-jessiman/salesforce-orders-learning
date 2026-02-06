@@ -22,6 +22,16 @@ export default class CaseSupport360 extends LightningElement {
         { label: 'Notes', fieldName: 'notes', type: 'text' }
     ];
 
+    shipmentColumns = [
+        { label: 'Shipment', fieldName: 'name', type: 'text' },
+        { label: 'Status', fieldName: 'deliveryStatus', type: 'text' },
+        { label: 'Carrier', fieldName: 'carrier', type: 'text' },
+        { label: 'Tracking', fieldName: 'trackingNumber', type: 'text' },
+        { label: 'ETA', fieldName: 'eta', type: 'date-local' },
+        { label: 'Last Update', fieldName: 'lastTrackingUpdate', type: 'date' },
+        { label: 'Exception', fieldName: 'exceptionReason', type: 'text' }
+    ];
+
     @wire(getSupport360, { caseId: '$recordId' })
     wiredSupport360({ data, error }) {
         if (data) {
@@ -41,6 +51,10 @@ export default class CaseSupport360 extends LightningElement {
 
     get hasReturnLines() {
         return this.data?.returnLines?.length > 0;
+    }
+
+    get hasShipments() {
+        return this.data?.shipments?.length > 0;
     }
 
     normalizeError(error) {
