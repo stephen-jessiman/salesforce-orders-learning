@@ -262,8 +262,8 @@ Symptom:
 Most common causes:
 
 1. Topic routed correctly, but no action was selected.
-2. Action selected but failed due missing required inputs.
-3. Action selected but failed due agent-user permissions.
+2. Action selected but failed due to missing required inputs.
+3. Action selected but failed due to agent-user permissions.
 
 Fix sequence:
 
