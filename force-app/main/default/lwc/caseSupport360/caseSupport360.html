@@ -136,6 +136,24 @@
                     </lightning-layout-item>
 
                     <lightning-layout-item size="12" padding="around-small">
+                        <lightning-card title="Shipments" icon-name="standard:shipment">
+                            <div class="slds-p-around_small">
+                                <template if:true={hasShipments}>
+                                    <lightning-datatable
+                                        key-field="id"
+                                        data={data.shipments}
+                                        columns={shipmentColumns}
+                                        hide-checkbox-column
+                                    ></lightning-datatable>
+                                </template>
+                                <template if:false={hasShipments}>
+                                    <div class="slds-text-color_weak">No shipments yet.</div>
+                                </template>
+                            </div>
+                        </lightning-card>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item size="12" padding="around-small">
                         <lightning-card title="Order Items" icon-name="standard:product_item">
                             <div class="slds-p-around_small">
                                 <template if:true={hasOrderItems}>
