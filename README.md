@@ -40,6 +40,10 @@ Verify: `sf --version`
 
 `sf org assign permset --name Agentforce_Learning`
 
+5) For Agentforce runtime users, assign the dedicated least-privilege permission set after the agent user is created
+
+Setup -> Permission Sets -> `Agentforce_Agent_Runtime` -> Manage Assignments -> assign the Agent User (for example, `EinsteinServiceAgent User`).
+
 ## Agentforce Learning Seed Data (Orders + Support)
 
 This repo includes a small “support + orders” dataset (standard objects + a few custom objects) so you can practice Agentforce-style flows like “Where is my order?” and “Start a return”.
