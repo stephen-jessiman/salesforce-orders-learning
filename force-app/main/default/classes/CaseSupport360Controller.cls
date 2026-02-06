@@ -53,11 +53,15 @@ public with sharing class CaseSupport360Controller {
             FROM Shipment__c
             WHERE Order__c = :o.Id
             ORDER BY CreatedDate DESC
-            LIMIT 1
+            LIMIT 50
         ];
         shipments = (List<Shipment__c>) Security.stripInaccessible(AccessType.READABLE, shipments).getRecords();
+        resp.shipments = new List<ShipmentSummary>();
+        for (Shipment__c shipmentRecord : shipments) {
+            resp.shipments.add(new ShipmentSummary(shipmentRecord));
+        }
         if (!shipments.isEmpty()) {
-            resp.shipment = new ShipmentSummary(shipments[0]);
+            resp.shipment = resp.shipments[0];
         }
 
         List<Return__c> returns = [
@@ -94,6 +98,7 @@ public with sharing class CaseSupport360Controller {
         @AuraEnabled public OrderSummary order;
         @AuraEnabled public List<OrderItemSummary> orderItems;
         @AuraEnabled public ShipmentSummary shipment;
+        @AuraEnabled public List<ShipmentSummary> shipments;
         @AuraEnabled public ReturnSummary returnRequest;
         @AuraEnabled public List<ReturnLineSummary> returnLines;
         @AuraEnabled public String message;
