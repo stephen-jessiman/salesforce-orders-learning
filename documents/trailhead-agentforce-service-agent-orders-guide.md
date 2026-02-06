@@ -352,7 +352,7 @@ Use this section when you want exact execution steps instead of a high-level che
    - Learning checkpoint: the agent record is your runtime container for topics, actions, and deployment.
 4. Add topic and instruction policy.
    - Add topic `Order Support`.
-   - Paste or adapt the instructions from the "Topic Instructions (starter set)" section above.
+   - Paste or adapt the instructions from the "Topic Instructions (action-aware)" section above.
    - Remove default Salesforce topic instructions if they conflict with this focused order-support policy.
    - Keep scope narrow: order status, shipment exceptions, return support.
    - Learning checkpoint: instructions are guardrails, not just prose; they shape action-selection behavior.
@@ -429,8 +429,33 @@ Context:
   - Order PoNumber: AF-SEED-ORDER-0001
   - Shipments: 1ZAFSEED0001 (Shipped), 1ZAFSEED0002 (Exception / Carrier_Delay)
   - Return: RMA-AF-0001
-- Reference guide to keep updated as we learn:
+  - Customer email: alex.customer@example.com
+- Reference guide (read this first):
   documents/trailhead-agentforce-service-agent-orders-guide.md
+- Session log from previous working session:
+  documents/live-loop-session-log-2026-02-06.md
+
+Prerequisites already handled by this repo:
+- Custom objects, fields, and permissions are in DX source.
+- 5 Autolaunched Flows for agent actions are in force-app/main/default/flows/.
+- Seed data script is at scripts/apex/seed_agentforce_data.apex.
+- All of these deploy via `sf project deploy start`.
+
+What still needs to be done in Salesforce UI (not source-controllable):
+1. Create a new service agent (Agent Builder -> New Agent -> Service Agent).
+2. Add topic "Order Support" with the action-aware instructions from the guide.
+3. Wire each of the 5 deployed flows as Agent Actions (New Action -> Type: Flow).
+   - Configure inputs, outputs, action instructions, and loading text per the guide's "Custom Action Configuration" section.
+   - Key pattern: "Require Input" + "Collect from user" for customer-provided values (email, PO number); "Require Input" only for chained values (orderId, contactId).
+4. Assign permission set `Agentforce_Agent_Runtime` to the Agent User (Setup -> Permission Sets).
+5. Test in Builder, then activate and publish.
+
+Important lessons from previous sessions (avoid repeating these mistakes):
+- Do NOT use standard catalog actions (e.g. Identify Customer By Email, Get Orders By Contact). They return mock/wrong data. Always use the custom flows from this repo.
+- Agent runs as EinsteinServiceAgent User, not admin. Without the runtime permission set, actions fail silently.
+- Topic instructions must reference action names explicitly for reliable action selection.
+- Standard field FLS in permission sets causes deploy failures — use object-level permissions for standard objects.
+- recordCreates in flows stores only the ID. To return a created record, add a Get Records element after the create.
 
 How I want you to run the session:
 1. Work as a live loop, one step at a time.
@@ -458,7 +483,7 @@ Documentation behavior:
 - Add new notes under "Session Clarifications (Living Section)" with date and concise rationale.
 - If we improve repeatability, update "Detailed Build Steps (Click-by-Click)".
 
-Start now with Step 1: confirm org/data readiness and explain why this prevents false confidence in agent tests.
+Start now with Step 1: confirm org/data readiness (run sf project deploy start and seed data script), then explain why this prevents false confidence in agent tests.
 ```
 
 Tips for use:
