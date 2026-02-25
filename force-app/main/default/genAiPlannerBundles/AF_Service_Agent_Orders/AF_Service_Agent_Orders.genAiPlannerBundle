@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlannerBundle xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <description>Service agent for order status, shipment exceptions, and return support for seeded Agentforce learning scenario.</description>
+    <localActionLinks>
+        <genAiFunctionName>AnswerQuestionsWithKnowledge_16jfj000001JdQ5</genAiFunctionName>
+    </localActionLinks>
+    <localTopicLinks>
+        <genAiPluginName>Order_Support_16jfj000001JdQ5</genAiPluginName>
+    </localTopicLinks>
+    <localTopics>
+        <fullName>Order_Support_16jfj000001JdQ5</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Handles inquiries related to order tracking, delays, and returns.</description>
+        <developerName>Order_Support_16jfj000001JdQ5</developerName>
+        <genAiPluginInstructions>
+            <description>If the customer is not known, identify them by one of these paths: ask for their email address and run &apos;Get Customer Details&apos;, OR if they provide a PO number, run &apos;Get Order By PO Number&apos; first and use the account/contact context from the order to confirm identity. Either path is acceptable. Do not require email if the customer has already provided a PO number.</description>
+            <developerName>instruction_1</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction 1</masterLabel>
+            <sortOrder>0</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>If the customer asks about an order, ask for their PO number (if not already provided) and run &apos;Get Order By PO Number&apos; to retrieve the order. If they don&apos;t know the PO number, use context from &apos;Get Customer Details&apos; to help.</description>
+            <developerName>instruction_2</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction 2</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>To check shipment status, run &apos;Get Shipments For Order&apos; using the Order ID from &apos;Get Order By PO Number&apos;. Report all tracking numbers and delivery statuses.</description>
+            <developerName>instruction_3</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction 3</masterLabel>
+            <sortOrder>2</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>If a shipment has Delivery Status &apos;Exception&apos;, explain the delay clearly, share the Exception Reason and the Last Tracking Update datetime.</description>
+            <developerName>instruction_4</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction 4</masterLabel>
+            <sortOrder>3</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>If the customer asks about a return, run &apos;Get Return Details&apos; to retrieve the return record. Share the RMA number, status, and reason.</description>
+            <developerName>instruction_5</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction 5</masterLabel>
+            <sortOrder>4</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>If the customer needs to open a support case, run &apos;Create Support Case&apos; with their Contact ID, a clear subject, and description summarizing the issue.</description>
+            <developerName>instruction_6</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction 6</masterLabel>
+            <sortOrder>5</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Keep replies concise. Always include tracking numbers, ETAs, and RMA numbers when available.</description>
+            <developerName>instructions_0_1770395103147</developerName>
+            <language>en_US</language>
+            <masterLabel>instructions_0_1770395103147</masterLabel>
+            <sortOrder>6</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Treat order status, shipment delay, return requests, and case updates as in-scope. These are operational support requests.</description>
+            <developerName>instructions_0_1770395228868</developerName>
+            <language>en_US</language>
+            <masterLabel>instructions_0_1770395228868</masterLabel>
+            <sortOrder>7</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>Get_Customer_Details_179fj000001YzN3</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Get_Order_By_PO_Number_179fj000001YzN3</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Get_Shipments_For_Order_179fj000001YzN3</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Get_Return_Details_179fj000001YzN3</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Create_Support_Case_179fj000001YzN3</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>Get_Return_Details_179fj000001YzN3</fullName>
+            <description>Retrieve all returns for an order. Run this when the customer asks about a return, refund, or RMA. Use the Order ID from the order record.</description>
+            <developerName>Get_Return_Details_179fj000001YzN3</developerName>
+            <invocationTarget>Get_Return_Details</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Get_Return_Details</localDeveloperName>
+            <masterLabel>Get Return Details</masterLabel>
+            <progressIndicatorMessage>Checking return status...</progressIndicatorMessage>
+        </localActions>
+        <localActions>
+            <fullName>Get_Customer_Details_179fj000001YzN3</fullName>
+            <description>Look up a customer&apos;s Contact record using their email address. Always run this action first before any other actions to identify the customer.</description>
+            <developerName>Get_Customer_Details_179fj000001YzN3</developerName>
+            <invocationTarget>Get_Customer_Details</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Get_Customer_Details</localDeveloperName>
+            <masterLabel>Get Customer Details</masterLabel>
+            <progressIndicatorMessage>Looking up your account...</progressIndicatorMessage>
+        </localActions>
+        <localActions>
+            <fullName>Get_Shipments_For_Order_179fj000001YzN3</fullName>
+            <description>Retrieve all shipments for an order. Run this after &apos;Get Order By PO Number&apos; to check tracking and delivery status. Use the Order ID from the order record, not the PO number.</description>
+            <developerName>Get_Shipments_For_Order_179fj000001YzN3</developerName>
+            <invocationTarget>Get_Shipments_For_Order</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Get_Shipments_For_Order</localDeveloperName>
+            <masterLabel>Get Shipments For Order</masterLabel>
+            <progressIndicatorMessage>Checking shipment status...</progressIndicatorMessage>
+        </localActions>
+        <localActions>
+            <fullName>Get_Order_By_PO_Number_179fj000001YzN3</fullName>
+            <description>Retrieve an order using the PO number. Run this after identifying the customer with &apos;Get Customer Details&apos;. Use the PO number provided by the customer.</description>
+            <developerName>Get_Order_By_PO_Number_179fj000001YzN3</developerName>
+            <invocationTarget>Get_Order_By_PO_Number</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Get_Order_By_PO_Number</localDeveloperName>
+            <masterLabel>Get Order By PO Number</masterLabel>
+            <progressIndicatorMessage>Looking up your order...</progressIndicatorMessage>
+        </localActions>
+        <localActions>
+            <fullName>Create_Support_Case_179fj000001YzN3</fullName>
+            <description>Create a new support case for the customer. Run this when the customer needs to report an issue, request help, or escalate a problem. Always identify the customer first with &apos;Get Customer Details&apos;.</description>
+            <developerName>Create_Support_Case_179fj000001YzN3</developerName>
+            <invocationTarget>Create_Support_Case</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Create_Support_Case</localDeveloperName>
+            <masterLabel>Create Support Case</masterLabel>
+            <progressIndicatorMessage>Creating your support case...</progressIndicatorMessage>
+        </localActions>
+        <localDeveloperName>Order_Support</localDeveloperName>
+        <masterLabel>Order Support</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>Your job is only to assist users with tracking their orders, providing updates on delays, shipping, and supporting return requests. Do not address unrelated topics or inquiries outside this scope.</scope>
+    </localTopics>
+    <masterLabel>AF Service Agent - Orders</masterLabel>
+    <plannerActions>
+        <fullName>AnswerQuestionsWithKnowledge_16jfj000001JdQ5</fullName>
+        <description>Answers questions about company policies and procedures, troubleshooting steps, or product information. For example: “What is your return policy?” “How do I fix an issue?” or “What features does a product have?”</description>
+        <developerName>AnswerQuestionsWithKnowledge_16jfj000001JdQ5</developerName>
+        <invocationTarget>streamKnowledgeSearch</invocationTarget>
+        <invocationTargetType>standardInvocableAction</invocationTargetType>
+        <isConfirmationRequired>false</isConfirmationRequired>
+        <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+        <localDeveloperName>AnswerQuestionsWithKnowledge</localDeveloperName>
+        <masterLabel>Answer Questions with Knowledge</masterLabel>
+        <progressIndicatorMessage>Getting answers</progressIndicatorMessage>
+        <source>EmployeeCopilot__AnswerQuestionsWithKnowledge</source>
+    </plannerActions>
+    <plannerSurfaces>
+        <adaptiveResponseAllowed>true</adaptiveResponseAllowed>
+        <callRecordingAllowed>false</callRecordingAllowed>
+        <surface>SurfaceAction__CustomerWebClient</surface>
+        <surfaceType>CustomerWebClient</surfaceType>
+    </plannerSurfaces>
+    <plannerSurfaces>
+        <adaptiveResponseAllowed>true</adaptiveResponseAllowed>
+        <callRecordingAllowed>false</callRecordingAllowed>
+        <surface>SurfaceAction__Messaging</surface>
+        <surfaceType>Messaging</surfaceType>
+    </plannerSurfaces>
+    <plannerType>AiCopilot__ReAct</plannerType>
+    <ruleExpressions>
+        <conditions>
+            <leftOperand>isVerified</leftOperand>
+            <leftOperandType>Variable</leftOperandType>
+            <operator>equal</operator>
+            <rightOperandValue>true</rightOperandValue>
+        </conditions>
+        <expression>Verified_User</expression>
+        <expressionLabel>Verified User</expressionLabel>
+        <expressionName>Verified_User</expressionName>
+        <expressionType>sel</expressionType>
+    </ruleExpressions>
+</GenAiPlannerBundle>
