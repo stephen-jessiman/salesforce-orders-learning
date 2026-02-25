@@ -5,7 +5,6 @@
         <label>AF Service Agent - Orders</label>
         <name>AF_Service_Agent_Orders</name>
     </botMlDomain>
-    <botUser>af_service_agent_orders@00dfj00000jczxd141597286.ext</botUser>
     <contextVariables>
         <contextVariableMappings>
             <SObjectType>VoiceCall</SObjectType>
