@@ -1,0 +1,14 @@
+{
+  "required" : [ "poNumber" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "poNumber" : {
+      "title" : "poNumber",
+      "description" : "The order's PO number (e.g. AF-SEED-ORDER-0001). Ask the customer for their order or PO number if not already provided.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

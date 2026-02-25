@@ -1,0 +1,28 @@
+{
+  "required" : [ "caseDescription", "caseSubject", "contactId" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "caseDescription" : {
+      "title" : "caseDescription",
+      "description" : "A detailed description of the customer's issue including any relevant order or shipment details discussed.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "caseSubject" : {
+      "title" : "caseSubject",
+      "description" : "A short summary of the customer's issue for the case subject line.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "contactId" : {
+      "title" : "contactId",
+      "description" : "The Contact record ID from the 'Get Customer Details' action. This must be an ID.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}
